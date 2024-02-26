@@ -295,11 +295,17 @@ return {
               --auto close
               require("neo-tree.command").execute({ action = "close" })
             end
+          },          {
+            event = "neo_tree_window_after_open",
+            handler = function(file_path)
+              --auto focus after open
+              require("neo-tree.command").execute({ action = "focus" })
+            end
           },
 
         }
       })
 
-      vim.cmd([[nnoremap \ :Neotree toggle<cr>]])
+    -- vim.api.nvim_set_keymap('n', '\\', ':Neotree toggle<CR>', {noremap = true, silent = true})
     end
 }

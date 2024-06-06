@@ -1,3 +1,7 @@
+-- Lazy Plugin Manager Setup
+-- -------------------------
+
+-- Clone Lazy if it doesn't exist
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -7,14 +11,24 @@ if not vim.loop.fs_stat(lazypath) then
     "https://github.com/folke/lazy.nvim.git",
     "--branch=stable", -- latest stable release
     lazypath,
-
-
-
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.neovide_cursor_vfx_mode = "pixiedust"
+-- Set up Lazy and parse plugins. Provide some non-default options
+require("lazy").setup(require("user_plugins").plugins(), {
+  checker = {                     -- Update Check
+     enabled = true,
+     frequency = 311040000,
+     notify = false,
+   },
+   change_detection = {            -- Watch plugins for config changes, but don't notify for it.
+     enabled = true,
+     notify = false,
+   }
+ })
 
-require("config")
-require("lazy").setup("plugins")
+require("user_plugins").config()
+
+require("settings")
+require("binds")
